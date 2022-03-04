@@ -250,6 +250,7 @@ void HOT GDEPaperTypeA::display() {
   this->command(0xFF);
 
   this->status_clear_warning();
+  LOG_DISPLAY("", "Good Display E-Paper Displayed", this);
 }
 int GDEPaperTypeA::get_width_internal() {
   switch (this->model_) {
