@@ -220,8 +220,8 @@ void HOT GDEPaperTypeA::display() {
   this->data (0x3C);   // default 50Hz
   this->command(0X50); // VCOM and data interval
   this->data(0x97);//
-  this->command(0XE3); // power saving register
-  this->data(0x00); // default
+//  this->command(0XE3); // power saving register
+//  this->data(0x00); // default
   
   this->command(0x26);
   for (uint8_t i = 0; i < 200; i++){
