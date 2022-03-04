@@ -115,7 +115,7 @@ void GDEPaper::on_safe_shutdown() { this->deep_sleep(); }
 
 void GDEPaperTypeA::initialize() {
 
-  if (_hibernating) _reset();
+
   this->command(0x00); // panel setting
   this->data (0xff);
   this->data (0x0e);
