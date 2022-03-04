@@ -152,6 +152,19 @@ void GDEPaperTypeA::initialize() {
   this->data(0x97);//
   this->command(0XE3); // power saving register
   this->data(0x00); // default
+  
+  this->command(0x26);
+  for (uint8_t i = 0; i < 200; i++){
+    for (uint8_t j = 0; j < size; j++){
+      this->data(0x00);
+    }
+  }
+  this->command(0x10);
+  for (uint8_t i = 0; i < 200; i++){
+    for (uint8_t j = 0; j < size; j++){
+      this->data(0x00);
+    }
+  }  
 }
 void GDEPaperTypeA::dump_config() {
   LOG_DISPLAY("", "Good Display E-Paper", this);
