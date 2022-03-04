@@ -184,6 +184,8 @@ void HOT GDEPaperTypeA::display() {
   bool full_update = this->at_update_ == 0;
   bool prev_full_update = this->at_update_ == 1;
 
+  this->command(0x04); //power on
+  
   this->command(0x00); // panel setting
   this->data (0xff);
   this->data (0x0e);
