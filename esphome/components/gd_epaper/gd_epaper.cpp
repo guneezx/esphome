@@ -155,13 +155,13 @@ void GDEPaperTypeA::initialize() {
   
   this->command(0x26);
   for (uint8_t i = 0; i < 200; i++){
-    for (uint8_t j = 0; j < size; j++){
+    for (uint8_t j = 0; j < 200; j++){
       this->data(0x00);
     }
   }
   this->command(0x10);
   for (uint8_t i = 0; i < 200; i++){
-    for (uint8_t j = 0; j < size; j++){
+    for (uint8_t j = 0; j < 200; j++){
       this->data(0x00);
     }
   }  
