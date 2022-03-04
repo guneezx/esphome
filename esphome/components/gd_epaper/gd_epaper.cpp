@@ -184,6 +184,58 @@ void HOT GDEPaperTypeA::display() {
   bool full_update = this->at_update_ == 0;
   bool prev_full_update = this->at_update_ == 1;
 
+  this->command(0x00); // panel setting
+  this->data (0xff);
+  this->data (0x0e);
+  this->command(0x01); // power setting
+  this->data(0x03);
+  this->data(0x06); // 16V
+  this->data(0x2A);//
+  this->data(0x2A);//
+  this->command(0x4D); // FITIinternal code
+  this->data (0x55);
+  this->command(0xaa);
+  this->data (0x0f);
+  this->command(0xE9);
+  this->data (0x02);
+  this->command(0xb6);
+  this->data (0x11);
+  this->command(0xF3);
+  this->data (0x0a);
+  this->command(0x06); // boost soft start
+  this->data (0xc7);
+  this->data (0x0c);
+  this->data (0x0c);
+  this->command(0x61); // resolution setting
+  this->data (0xc8); // 200
+  this->data (0x00);
+  this->data (0xc8); // 200
+  this->command(0x60); // Tcon setting
+  this->data (0x00);
+  this->command(0x82); // VCOM DC setting
+  this->data (0x12);
+  this->command(0x30); // PLL control
+  this->data (0x3C);   // default 50Hz
+  this->command(0X50); // VCOM and data interval
+  this->data(0x97);//
+  this->command(0XE3); // power saving register
+  this->data(0x00); // default
+  
+  this->command(0x26);
+  for (uint8_t i = 0; i < 200; i++){
+    for (uint8_t j = 0; j < 200; j++){
+      this->data(0x00);
+    }
+  }
+  this->command(0x10);
+  for (uint8_t i = 0; i < 200; i++){
+    for (uint8_t j = 0; j < 200; j++){
+      this->data(0x00);
+    }
+  }  
+LOG_DISPLAY("", "Good Display E-Paper Initialized", this);    
+  
+  
   if (!this->wait_until_idle_()) {
     this->status_set_warning();
     return;
