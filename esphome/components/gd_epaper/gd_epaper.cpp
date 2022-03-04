@@ -165,6 +165,7 @@ void GDEPaperTypeA::initialize() {
       this->data(0x00);
     }
   }  
+LOG_DISPLAY("", "Good Display E-Paper Initialized", this);  
 }
 void GDEPaperTypeA::dump_config() {
   LOG_DISPLAY("", "Good Display E-Paper", this);
