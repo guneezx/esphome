@@ -201,11 +201,7 @@ void GDEPaperTypeA::initialize() {
   this->command(0x00); // panel setting
   this->data (0xdf);
   this->data (0x0e);
-  //this->command(0x01); // power setting
-  //this->data(0x03);
-  //this->data(0x06); // 16V
-  //this->data(0x2A);//
-  //this->data(0x2A);//
+
   this->command(0x4D); // FITIinternal code
   this->data (0x55);
   this->command(0xaa);
@@ -216,20 +212,14 @@ void GDEPaperTypeA::initialize() {
   this->data (0x11);
   this->command(0xF3);
   this->data (0x0a);
-  //this->command(0x06); // boost soft start
-  //this->data (0xc7);
-  //this->data (0x0c);
-  //this->data (0x0c);
+
   this->command(0x61); // resolution setting
   this->data (0xc8); // 200
   this->data (0x00);
   this->data (0xc8); // 200
   this->command(0x60); // Tcon setting
   this->data (0x00);
-  //this->command(0x82); // VCOM DC setting
-  //this->data (0x12);
-  //this->command(0x30); // PLL control
-  //this->data (0x3C);   // default 50Hz
+
   this->command(0X50); // VCOM and data interval
   this->data(0xD7);//
   this->command(0XE3); // power saving register
@@ -284,83 +274,6 @@ void GDEPaperTypeA::dump_config() {
 void HOT GDEPaperTypeA::display() {
   bool full_update = this->at_update_ == 0;
   bool prev_full_update = this->at_update_ == 1;
-
-    this->command(0X50);
-    this->data(0xd7);
-    this->command(0X04);
-    delay(50);
-  
-  this->command(0x00); // panel setting
-  this->data (0xdf);
-  this->data (0x0e);
-  //this->command(0x01); // power setting
-  //this->data(0x03);
-  //this->data(0x06); // 16V
-  //this->data(0x2A);//
-  //this->data(0x2A);//
-  this->command(0x4D); // FITIinternal code
-  this->data (0x55);
-  this->command(0xaa);
-  this->data (0x0f);
-  this->command(0xE9);
-  this->data (0x02);
-  this->command(0xb6);
-  this->data (0x11);
-  this->command(0xF3);
-  this->data (0x0a);
-  //this->command(0x06); // boost soft start
-  //this->data (0xc7);
-  //this->data (0x0c);
-  //this->data (0x0c);
-  this->command(0x61); // resolution setting
-  this->data (0xc8); // 200
-  this->data (0x00);
-  this->data (0xc8); // 200
-  this->command(0x60); // Tcon setting
-  this->data (0x00);
-  //this->command(0x82); // VCOM DC setting
-  //this->data (0x12);
-  //this->command(0x30); // PLL control
-  //this->data (0x3C);   // default 50Hz
-  this->command(0X50); // VCOM and data interval
-  this->data(0xD7);//
-  this->command(0XE3); // power saving register
-  this->data(0x00); // default
-  
-  this->command(0X04);
-  delay(50);
-  
-  this->command(0x10);
-  for (uint32_t i = 0; i < 200*200; i++){
-      this->data(0xff);
-  }
-  delay(2);
-  
-  this->command(0x13);
-  for (uint32_t i = 0; i < 200*200; i++){
-      this->data(0x00);
-  }
-  
-  delay(2);
-  this->command(0x12);
-  delay(10);
-  
-  this->command(0x10);
-  for (uint32_t i = 0; i < 200*200; i++){
-      this->data(0x00);
-  }
-  delay(2);
-
-  this->command(0x13);
-  for (uint32_t i = 0; i < 200*200; i++){
-      this->data(0xff);
-  }
-  
-  this->command(0x12);
-  delay(10);
-
-LOG_DISPLAY("", "Good Display E-Paper Initialized", this);    
-  
   
   if (!this->wait_until_idle_()) {
     this->status_set_warning();
@@ -390,23 +303,16 @@ LOG_DISPLAY("", "Good Display E-Paper Initialized", this);
   switch (this->model_) {
     default:
       // COMMAND SET RAM X ADDRESS START END POSITION
-      this->command(0x44);
+      this->command(0x91);
+      this->command(0x90);
       this->data(0x00);
-      this->data((this->get_width_internal() - 1) >> 3);
+      this->data((this->get_width_internal() - 1));
+      this->data(0x00);
       // COMMAND SET RAM Y ADDRESS START END POSITION
-      this->command(0x45);
       this->data(0x00);
       this->data(0x00);
-      this->data(this->get_height_internal() - 1);
-      this->data((this->get_height_internal() - 1) >> 8);
+      this->data(this->get_height_internal());
 
-      // COMMAND SET RAM X ADDRESS COUNTER
-      this->command(0x4E);
-      this->data(0x00);
-      // COMMAND SET RAM Y ADDRESS COUNTER
-      this->command(0x4F);
-      this->data(0x00);
-      this->data(0x00);
   }
 
   if (!this->wait_until_idle_()) {
@@ -415,7 +321,7 @@ LOG_DISPLAY("", "Good Display E-Paper Initialized", this);
   }
 
   // COMMAND WRITE RAM
-  this->command(0x24);
+  this->command(0x13);
   this->start_data_();
   switch (this->model_) {
     default:
@@ -423,19 +329,9 @@ LOG_DISPLAY("", "Good Display E-Paper Initialized", this);
   }
   this->end_data_();
 
-  // COMMAND DISPLAY UPDATE CONTROL 2
-  this->command(0x22);
-  switch (this->model_) {
-    default:
-      this->data(0xC4);
-      break;
-  }
-
-  // COMMAND MASTER ACTIVATION
-  this->command(0x20);
-  // COMMAND TERMINATE FRAME READ WRITE
-  this->command(0xFF);
-
+  // COMMAND DISPLAY UPDATE
+  this->command(0x12);
+  
   this->status_clear_warning();
   LOG_DISPLAY("", "Good Display E-Paper Displayed", this);
 }
