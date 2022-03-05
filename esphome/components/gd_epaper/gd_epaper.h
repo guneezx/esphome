@@ -83,13 +83,13 @@ class GDEPaperTypeA : public GDEPaper {
   void deep_sleep() override {
     if (this->model_ == GD_EPAPER_1_54_IN) {
       // COMMAND DEEP SLEEP MODE
+      this->command(0x50);
+      this->data(0xf7);
+      this->command(0x02); //power off
+      this->wait_until_idle_();      
       this->command(0x07);
       this->data(0xA5);
-    } else {
-      // COMMAND DEEP SLEEP MODE
-      //this->command(0x10);
-    }
-    this->wait_until_idle_();
+    } 
   }
 
   void set_full_update_every(uint32_t full_update_every);
