@@ -275,6 +275,11 @@ void HOT GDEPaperTypeA::display() {
   bool full_update = this->at_update_ == 0;
   bool prev_full_update = this->at_update_ == 1;
   
+    this->command(0X50);
+    this->data(0xd7);
+    this->command(0X04);
+    delay(50);  
+  
   if (!this->wait_until_idle_()) {
     this->status_set_warning();
     return;
@@ -302,16 +307,17 @@ void HOT GDEPaperTypeA::display() {
   // Set x & y regions we want to write to (full)
   switch (this->model_) {
     default:
-      // COMMAND SET RAM X ADDRESS START END POSITION
+      // COMMAND SET RAM X, Y ADDRESS START END POSITION
       this->command(0x91);
       this->command(0x90);
-      this->data(0x00);
-      this->data((this->get_width_internal() - 1));
-      this->data(0x00);
-      // COMMAND SET RAM Y ADDRESS START END POSITION
-      this->data(0x00);
-      this->data(0x00);
-      this->data(this->get_height_internal());
+      this->data(0x00); //x-start
+      this->data((this->get_width_internal() - 1)); //x-end
+      this->data(0x00); //x-reserved
+      
+      this->data(0x00); //y-start
+      this->data(0x00); //y-reserved
+      this->data(this->get_height_internal());  //y-end
+      this->data(0x01); 
 
   }
 
@@ -330,7 +336,9 @@ void HOT GDEPaperTypeA::display() {
   this->end_data_();
 
   // COMMAND DISPLAY UPDATE
+  delay(2);
   this->command(0x12);
+  delay(10);
   
   this->status_clear_warning();
   LOG_DISPLAY("", "Good Display E-Paper Displayed", this);
