@@ -391,7 +391,7 @@ void HOT GDEPaperTypeA::display() {
   this->command(0x10);
   this->start_data_();
   for (uint32_t i = 0; i < 200*200; i++){
-      this->write_byte(0x00);
+      this->write_byte(0xff);
   }  
   this->end_data_();
   
