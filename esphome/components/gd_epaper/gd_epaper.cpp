@@ -339,7 +339,7 @@ void HOT GDEPaperTypeA::display() {
   
   this->command(0x12);
   delay(10);
-  
+  /*
   
   if (!this->wait_until_idle_()) {
     this->status_set_warning();
@@ -386,7 +386,7 @@ void HOT GDEPaperTypeA::display() {
     this->status_set_warning();
     return;
   }
-
+*/
   // COMMAND WRITE RAM
   this->command(0x10);
   this->start_data_();
