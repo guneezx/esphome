@@ -274,11 +274,40 @@ void GDEPaperTypeA::dump_config() {
 void HOT GDEPaperTypeA::display() {
   bool full_update = this->at_update_ == 0;
   bool prev_full_update = this->at_update_ == 1;
-  
-    this->command(0X50);
+ 
+  this->command(0X50);
     this->data(0xd7);
     this->command(0X04);
-    delay(50);  
+    delay(50);
+  
+  
+  this->command(0x00); // panel setting
+  this->data (0xdf);
+  this->data (0x0e);
+
+  this->command(0x4D); // FITIinternal code
+  this->data (0x55);
+  this->command(0xaa);
+  this->data (0x0f);
+  this->command(0xE9);
+  this->data (0x02);
+  this->command(0xb6);
+  this->data (0x11);
+  this->command(0xF3);
+  this->data (0x0a);
+
+  this->command(0x61); // resolution setting
+  this->data (0xc8); // 200
+  this->data (0x00);
+  this->data (0xc8); // 200
+  this->command(0x60); // Tcon setting
+  this->data (0x00);
+
+  this->command(0X50); // VCOM and data interval
+  this->data(0xD7);//
+  this->command(0XE3); // power saving register
+  this->data(0x00); // default
+ 
   
   if (!this->wait_until_idle_()) {
     this->status_set_warning();
