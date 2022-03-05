@@ -327,6 +327,14 @@ void HOT GDEPaperTypeA::display() {
   }
 
   // COMMAND WRITE RAM
+  this->command(0x10);
+  this->start_data_();
+  for (uint32_t i = 0; i < 200*200; i++){
+      this->write_byte(0x00);
+  }  
+  this->end_data_();
+  
+  // COMMAND WRITE RAM
   this->command(0x13);
   this->start_data_();
   switch (this->model_) {
