@@ -307,7 +307,39 @@ void HOT GDEPaperTypeA::display() {
   this->data(0xD7);//
   this->command(0XE3); // power saving register
   this->data(0x00); // default
- 
+
+  this->command(0X04);
+  delay(50);
+  
+  this->command(0x10);
+  for (uint32_t i = 0; i < 200*200; i++){
+      this->data(0xff);
+  }
+  delay(2);
+  
+  this->command(0x13);
+  for (uint32_t i = 0; i < 200*200; i++){
+      this->data(0x00);
+  }
+  
+  delay(2);
+  this->command(0x12);
+  delay(10);
+  
+  this->command(0x10);
+  for (uint32_t i = 0; i < 200*200; i++){
+      this->data(0x00);
+  }
+  delay(2);
+
+  this->command(0x13);
+  for (uint32_t i = 0; i < 200*200; i++){
+      this->data(0xff);
+  }
+  
+  this->command(0x12);
+  delay(10);
+  
   
   if (!this->wait_until_idle_()) {
     this->status_set_warning();
