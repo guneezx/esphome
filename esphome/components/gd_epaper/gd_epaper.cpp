@@ -196,7 +196,7 @@ void GDEPaperTypeA::initialize() {
     this->command(0X50);
     this->data(0xd7);
     this->command(0X04);
-    delay(5000);
+    delay(50);
   
   this->command(0x00); // panel setting
   this->data (0xdf);
@@ -236,7 +236,7 @@ void GDEPaperTypeA::initialize() {
   this->data(0x00); // default
   
   this->command(0X04);
-  delay(5000);
+  delay(50);
   
   this->command(0x10);
   for (uint32_t i = 0; i < 200*200; i++){
@@ -251,7 +251,7 @@ void GDEPaperTypeA::initialize() {
   
   delay(2);
   this->command(0x12);
-  delay(1000);
+  delay(10);
   
   this->command(0x10);
   for (uint32_t i = 0; i < 200*200; i++){
@@ -265,7 +265,7 @@ void GDEPaperTypeA::initialize() {
   }
   
   this->command(0x12);
-  delay(1000);
+  delay(10);
 LOG_DISPLAY("", "Good Display E-Paper Initialized", this);  
 }
 void GDEPaperTypeA::dump_config() {
@@ -288,7 +288,7 @@ void HOT GDEPaperTypeA::display() {
     this->command(0X50);
     this->data(0xd7);
     this->command(0X04);
-    delay(5000);
+    delay(50);
   
   this->command(0x00); // panel setting
   this->data (0xdf);
@@ -328,7 +328,7 @@ void HOT GDEPaperTypeA::display() {
   this->data(0x00); // default
   
   this->command(0X04);
-  delay(5000);
+  delay(50);
   
   this->command(0x10);
   for (uint32_t i = 0; i < 200*200; i++){
@@ -343,7 +343,7 @@ void HOT GDEPaperTypeA::display() {
   
   delay(2);
   this->command(0x12);
-  delay(1000);
+  delay(10);
   
   this->command(0x10);
   for (uint32_t i = 0; i < 200*200; i++){
@@ -357,7 +357,7 @@ void HOT GDEPaperTypeA::display() {
   }
   
   this->command(0x12);
-  delay(1000);
+  delay(10);
 
 LOG_DISPLAY("", "Good Display E-Paper Initialized", this);    
   
@@ -455,7 +455,6 @@ int GDEPaperTypeA::get_height_internal() {
 }
 void GDEPaperTypeA::write_lut_(const uint8_t *lut, const uint8_t size) {
   // COMMAND WRITE LUT REGISTER
-  this->command(0x20);
   for (uint8_t i = 0; i < size; i++)
     this->data(lut[i]);
 }
